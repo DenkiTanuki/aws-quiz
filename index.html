@@ -614,7 +614,7 @@ document.addEventListener("keydown",(e)=>{
 function init() {
   buildChapterOptions();
   chapterSel.value = lsGet("aws_quiz_chapter_sel") || "0";
-  modeSel.value = lsGet("aws_quiz_mode_sel") || "chapter";
+  modeSel.value = lsGet("aws_quiz_mode_sel") || "normal";
   chapterSel.addEventListener("change", ()=>lsSet("aws_quiz_chapter_sel", chapterSel.value));
   modeSel.addEventListener("change", ()=>lsSet("aws_quiz_mode_sel", modeSel.value));
   applyMode();
