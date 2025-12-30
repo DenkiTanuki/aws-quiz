@@ -15,6 +15,7 @@
   --btn:#122235;
 }
 *{box-sizing:border-box}
+html{-webkit-text-size-adjust: 100%; text-size-adjust: 100%;}
 body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;background:radial-gradient(1200px 800px at 50% -100px,#18283c 0%,var(--bg0) 55%,#000 100%);color:var(--text); -webkit-text-size-adjust: 100%; text-size-adjust: 100%;}
 header{position:sticky;top:0;z-index:10;background:rgba(6,10,15,.78);backdrop-filter: blur(10px);border-bottom:1px solid rgba(255,255,255,.06);}
 .topbar{max-width:1200px;margin:0 auto;padding:10px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
@@ -22,6 +23,7 @@ select,button,input{font:inherit}
 .sel{background:var(--panel2);color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;}
 .btn{background:var(--btn);color:var(--text);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:10px 14px;cursor:pointer}
 .btn:hover{border-color:rgba(255,255,255,.22)}
+.btn{ white-space:nowrap; }
 .btn.primary{background:linear-gradient(180deg,#2f80ff,#1c63d8);border-color:rgba(78,161,255,.35)}
 .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
 main{max-width:1200px;margin:0 auto;padding:18px 12px 90px;}
@@ -70,17 +72,18 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
 
 /* Small screens */
 @media (max-width: 520px){
+  html{ font-size:14px; } /* 全体を少しだけ縮める */
   header{ padding-top: var(--safe-t); }
   .topbar{ gap:8px; padding:8px 10px; }
 
   /* iOS zoom対策：inputは16px維持。ボタン類は小さく */
   input{ font-size:16px; }
-  .sel,.btn{ font-size:14px; }
+  .sel,.btn{ font-size:13px; }
 
-  .sel,.btn{ padding:9px 10px; border-radius:12px; }
+  .sel,.btn{ padding:8px 10px; border-radius:12px; }
   .badge{ padding:6px 8px; font-size:12px; }
 
-  .stem{ font-size:15px; line-height:1.7; }
+  .stem{ font-size:14px; line-height:1.7; }
   .choice{ padding:10px 10px; }
   .choice .t{ font-size:14px; }
 
@@ -91,6 +94,9 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
   .topbar::-webkit-scrollbar{ display:none; }
   .footerbar .row{ flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; }
   .footerbar .row::-webkit-scrollbar{ display:none; }
+
+   main .card .row{ flex-wrap:wrap; }
+   main .card .row .btn{ flex:1 1 45%; } /* 2列っぽく均等 */
 
   .card{ padding:14px; }
   .modal{ max-height: calc(85vh - var(--safe-b)); }
