@@ -15,7 +15,7 @@
   --btn:#122235;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;background:radial-gradient(1200px 800px at 50% -100px,#18283c 0%,var(--bg0) 55%,#000 100%);color:var(--text);}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;background:radial-gradient(1200px 800px at 50% -100px,#18283c 0%,var(--bg0) 55%,#000 100%);color:var(--text); -webkit-text-size-adjust: 100%; text-size-adjust: 100%;}
 header{position:sticky;top:0;z-index:10;background:rgba(6,10,15,.78);backdrop-filter: blur(10px);border-bottom:1px solid rgba(255,255,255,.06);}
 .topbar{max-width:1200px;margin:0 auto;padding:10px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 select,button,input{font:inherit}
@@ -71,23 +71,28 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
 /* Small screens */
 @media (max-width: 520px){
   header{ padding-top: var(--safe-t); }
-  .topbar{ gap:8px; padding:10px 10px; }
-  /* make controls finger-friendly + stop iOS auto-zoom */
-  .sel,.btn,input{ font-size:16px; }
-  .sel,.btn{ padding:12px 12px; border-radius:14px; }
-  .badge{ padding:8px 10px; }
-  .stem{ font-size:17px; }
-  .choice{ padding:12px 12px; }
-  /* checkbox/radio bigger */
-  .choice input{ width:22px; height:22px; margin-top:2px; }
-  /* keep top controls and bottom filters usable on narrow width */
+  .topbar{ gap:8px; padding:8px 10px; }
+
+  /* iOS zoom対策：inputは16px維持。ボタン類は小さく */
+  input{ font-size:16px; }
+  .sel,.btn{ font-size:14px; }
+
+  .sel,.btn{ padding:9px 10px; border-radius:12px; }
+  .badge{ padding:6px 8px; font-size:12px; }
+
+  .stem{ font-size:15px; line-height:1.7; }
+  .choice{ padding:10px 10px; }
+  .choice .t{ font-size:14px; }
+
+  /* ラジオ/チェックは少しだけ大きく（押しやすさ維持） */
+  .choice input{ width:20px; height:20px; margin-top:2px; }
+
   .topbar{ flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; }
   .topbar::-webkit-scrollbar{ display:none; }
   .footerbar .row{ flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; }
   .footerbar .row::-webkit-scrollbar{ display:none; }
-  /* slightly narrower card padding */
+
   .card{ padding:14px; }
-  /* modal: maximize space */
   .modal{ max-height: calc(85vh - var(--safe-b)); }
 }
 
