@@ -189,6 +189,7 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
         </select>
         <input id="histSearch" class="sel" style="width:min(420px,100%)" placeholder="検索（問題文の一部）"/>
       </div>
+      <button class="btn" id="histClearBtn">履歴クリア</button>
       <button class="btn" id="histClose">閉じる</button>
     </div>
     <div id="histList" class="list"></div>
@@ -586,6 +587,14 @@ el("glossSearch").addEventListener("input", renderGloss);
 
 el("histBtn").addEventListener("click", openHist);
 el("histClose").addEventListener("click", closeHist);
+  el("histClearBtn")?.addEventListener("click", () => {
+    if(!confirm("履歴をすべて削除します。よろしいですか？")) return;
+    lsDel(LS_KEY);
+    attempts = {};
+    updateStatus();
+    renderHist();
+    closeHist();
+  });
 el("histMask").addEventListener("click", (e)=>{ if(e.target.id==="histMask") closeHist(); });
 el("histFilter").addEventListener("change", renderHist);
 el("histSearch").addEventListener("input", renderHist);
