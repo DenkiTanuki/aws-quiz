@@ -24,6 +24,7 @@ select,button,input{font:inherit}
 .btn{background:var(--btn);color:var(--text);border:1px solid rgba(255,255,255,.10);border-radius:12px;padding:10px 14px;cursor:pointer}
 .btn:hover{border-color:rgba(255,255,255,.22)}
 .btn{ white-space:nowrap; }
+.btn:disabled{opacity:.45;cursor:not-allowed;border-color:rgba(255,255,255,.08)}
 .btn.primary{background:linear-gradient(180deg,#2f80ff,#1c63d8);border-color:rgba(78,161,255,.35)}
 .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
 main{max-width:1200px;margin:0 auto;padding:18px 12px 90px;}
@@ -366,6 +367,15 @@ function setPanelsHidden() {
   el("toggleExplainBtn").textContent = "解説を表示";
 }
 
+function updateNavButtons(){
+  const prev = el("prevBtn");
+  const next = el("nextBtn");
+  const has = activeList.length > 0;
+  if (!prev || !next) return;
+  prev.disabled = (!has || qIndex <= 0);
+  next.disabled = (!has || qIndex >= activeList.length - 1);
+}
+
 function render() {
   if (!activeList.length) {
     el("qTitle").textContent = "表示対象なし";
@@ -374,6 +384,7 @@ function render() {
     el("qStem").textContent = "表示対象の問題がありません。フィルタを解除するかモードを変更してください。";
     el("choices").innerHTML = "";
     setPanelsHidden();
+    updateNavButtons();
     return;
   }
   const q = activeList[qIndex];
@@ -414,6 +425,7 @@ function render() {
   }
 
   setPanelsHidden();
+  updateNavButtons();
 }
 
 function onSelect(q, key, checked) {
