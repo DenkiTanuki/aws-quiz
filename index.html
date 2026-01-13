@@ -57,10 +57,20 @@ kbd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);bord
 .modal{width:min(920px,100%);max-height:85vh;overflow:auto;background:linear-gradient(180deg,#0c1520,#070c12);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
 .modal .head{display:flex;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(12,21,32,.92);backdrop-filter: blur(10px);padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
 .modal .list{margin-top:10px}
+/* ===== Glossary readability tuning ===== */
+.modal{color:var(--text);}
+.modal .head{border-color:rgba(255,255,255,.10);}
+.modal .list{margin-top:10px;}
+.item{padding:10px 12px;margin:8px 0;}
+.item .tt{color:var(--text);}
+.item .dd{color:rgba(230,238,247,.88);margin-top:4px;line-height:1.45;}
+.stem{line-height:1.6;}
+
 /* Glossary add panel: keep visible while scrolling list */
 .modal{display:flex;flex-direction:column;}
 .modal .list{flex:1; overflow:auto; padding-right:4px;}
 .glossAddPanel{position:sticky; top:66px; z-index:5; margin-top:10px; background:linear-gradient(180deg,rgba(12,21,32,.92),rgba(12,21,32,.65)); backdrop-filter: blur(10px);}
+.glossAddPanel.isClosed{display:none;}
 .glossAddPanel .row{flex-wrap:wrap;}
 .glossAddPanel .sel{min-width:180px;}
 @media (max-width: 520px){
@@ -197,7 +207,7 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
         <span class="badge">用語（牽引）</span>
         <input id="glossSearch" class="sel" style="width:min(420px,100%)" placeholder="検索（例：EC2）"/>
       </div>
-      <div class="row"><button class="btn" id="glossExportUserBtn">ユーザー用語Export</button><button class="btn" id="glossClose">閉じる</button></div>
+      <div class="row"><button class="btn" id="glossToggleAddBtn">追加フォームを隠す</button><button class="btn" id="glossExportUserBtn">ユーザー用語Export</button><button class="btn" id="glossClose">閉じる</button></div>
     </div>
     <div class="panel glossAddPanel">
       <div class="row" style="gap:8px">
@@ -638,6 +648,7 @@ function go(delta) {
 
 function openGloss() {
   el("glossMask").style.display="flex";
+  initGlossAddToggle();
   renderGloss();
   el("glossSearch").focus();
 }
@@ -785,6 +796,30 @@ el("glossAddBtn")?.addEventListener("click", ()=>{
 });
 
 el("glossExportUserBtn")?.addEventListener("click", exportUserGlossaryJson);
+
+// Glossary add form toggle (persist)
+const LS_GLOSS_ADD_OPEN = "aws_gloss_add_open_v1";
+function setGlossAddOpen(isOpen){
+  const panel = document.querySelector(".glossAddPanel");
+  const btn = el("glossToggleAddBtn");
+  if (!panel || !btn) return;
+  panel.classList.toggle("isClosed", !isOpen);
+  btn.textContent = isOpen ? "追加フォームを隠す" : "追加フォームを表示";
+  try { lsSet(LS_GLOSS_ADD_OPEN, isOpen ? "1" : "0"); } catch(e) {}
+}
+function initGlossAddToggle(){
+  const btn = el("glossToggleAddBtn");
+  if (!btn || btn.dataset.bound) return;
+  btn.dataset.bound = "1";
+  const open = (lsGet(LS_GLOSS_ADD_OPEN) ?? "1") !== "0";
+  setGlossAddOpen(open);
+  btn.addEventListener("click", ()=>{
+    const panel = document.querySelector(".glossAddPanel");
+    const nowOpen = panel ? !panel.classList.contains("isClosed") : true;
+    setGlossAddOpen(!nowOpen);
+  });
+}
+
 
 
 el("histBtn").addEventListener("click", openHist);
