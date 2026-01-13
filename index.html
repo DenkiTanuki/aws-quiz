@@ -32,6 +32,8 @@ select,button,input{font:inherit}
 .jumpRow .jumpNow{color:var(--muted); font-size:12px;}
 .btn.primary{background:linear-gradient(180deg,#2f80ff,#1c63d8);border-color:rgba(78,161,255,.35)}
 .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
+.tag{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(78,161,255,.12);border:1px solid rgba(78,161,255,.22);color:var(--text);font-size:12px;margin-right:6px;margin-top:6px}
+.tagRow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 main{max-width:1200px;margin:0 auto;padding:18px 12px 90px;}
 .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:18px;box-shadow: 0 20px 60px rgba(0,0,0,.35);}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -183,8 +185,24 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
         <span class="badge">用語（牽引）</span>
         <input id="glossSearch" class="sel" style="width:min(420px,100%)" placeholder="検索（例：EC2）"/>
       </div>
-      <button class="btn" id="glossClose">閉じる</button>
+      <div class="row"><button class="btn" id="glossExportUserBtn">ユーザー用語Export</button><button class="btn" id="glossClose">閉じる</button></div>
     </div>
+    <div class="panel" style="margin-top:10px">
+      <div class="row" style="gap:8px">
+        <input id="glossNewTerm" class="sel" style="width:min(260px,100%)" placeholder="右クリック選択→ここに入ります（用語）"/>
+        <input id="glossNewDesc" class="sel" style="flex:1;min-width:240px" placeholder="説明（短くでOK）"/>
+      </div>
+      <div class="row" style="gap:8px;margin-top:8px">
+        <span class="small">タグ：</span>
+        <input id="glossNewTags" class="sel" style="flex:1;min-width:220px" placeholder="例：IAM, EC2, NW（カンマ区切り）"/>
+        <button class="btn" id="tagIAM">IAM</button>
+        <button class="btn" id="tagEC2">EC2</button>
+        <button class="btn" id="tagNW">NW</button>
+        <button id="glossAddBtn" class="btn primary">追加</button>
+      </div>
+      <div class="small" style="margin-top:8px">※ 右クリックで問題文の選択語を自動入力できます（選択→右クリック）</div>
+    </div>
+
     <div id="glossList" class="list"></div>
   </div>
 </div>
@@ -271,6 +289,7 @@ function inferMissingAnswers(){
 }
 
 const LS_KEY = "aws_quiz_attempts_v1";
+const LS_GLOSS_USER = "aws_quiz_user_glossary_v1";
 
 let attempts = loadAttempts();
 let chapterSel = document.getElementById("chapterSel");
@@ -302,6 +321,29 @@ function loadAttempts() {
 }
 function saveAttempts() {
   try { lsSet(LS_KEY, JSON.stringify(attempts)); } catch(e) {}
+}
+
+
+function normalizeTags(s){
+  if (!s) return [];
+  return String(s).split(",").map(x=>x.trim()).filter(Boolean).map(x=>x.toUpperCase());
+}
+function loadUserGlossary(){
+  try { return JSON.parse(lsGet(LS_GLOSS_USER) || "[]"); } catch(e){ return []; }
+}
+function saveUserGlossary(list){
+  try { lsSet(LS_GLOSS_USER, JSON.stringify(list||[])); } catch(e) {}
+}
+function exportUserGlossaryJson(){
+  const rows = loadUserGlossary();
+  const payload = { exportedAt: new Date().toISOString(), rows };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "aws_user_glossary.json";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
 }
 
 function buildChapterOptions() {
@@ -462,6 +504,7 @@ function render() {
     setPanelsHidden();
     updateNavButtons();
     updateJumpUI();
+    bindGlossRightClick();
     return;
   }
   const q = activeList[qIndex];
@@ -504,6 +547,7 @@ function render() {
   setPanelsHidden();
   updateNavButtons();
   updateJumpUI();
+  bindGlossRightClick();
 }
 
 function onSelect(q, key, checked) {
@@ -590,13 +634,27 @@ function renderGloss() {
   const q = el("glossSearch").value.trim().toLowerCase();
   const list = el("glossList");
   list.innerHTML="";
-  const items = GLOSSARY.filter(e=> !q || e.term.toLowerCase().includes(q) || (e.desc||"").toLowerCase().includes(q));
+  const userGloss = loadUserGlossary();
+  const merged = [...GLOSSARY, ...userGloss];
+  const items = merged.filter(e=> !q || e.term.toLowerCase().includes(q) || (e.desc||"").toLowerCase().includes(q) || (Array.isArray(e.tags)? e.tags.join(",").toLowerCase().includes(q) : false));
   for (const it of items) {
     const div=document.createElement("div");
     div.className="item";
     const t=document.createElement("div"); t.className="tt"; t.textContent=it.term;
     const d=document.createElement("div"); d.className="dd"; d.textContent=it.desc;
     div.appendChild(t); div.appendChild(d);
+    // tags
+    if (Array.isArray(it.tags) && it.tags.length){
+      const tr = document.createElement("div");
+      tr.className = "tagRow";
+      for (const tg of it.tags){
+        const sp = document.createElement("span");
+        sp.className = "tag";
+        sp.textContent = tg;
+        tr.appendChild(sp);
+      }
+      div.appendChild(tr);
+    }
     list.appendChild(div);
   }
   if (!items.length) {
@@ -678,6 +736,44 @@ el("glossBtn").addEventListener("click", openGloss);
 el("glossClose").addEventListener("click", closeGloss);
 el("glossMask").addEventListener("click", (e)=>{ if(e.target.id==="glossMask") closeGloss(); });
 el("glossSearch").addEventListener("input", renderGloss);
+
+// --- Glossary: add from UI ---
+function appendTagToInput(tag){
+  const inp = el("glossNewTags");
+  if (!inp) return;
+  const tags = normalizeTags(inp.value);
+  const t = String(tag||"").toUpperCase();
+  if (t && !tags.includes(t)) tags.push(t);
+  inp.value = tags.join(",");
+}
+
+el("tagIAM")?.addEventListener("click", ()=>appendTagToInput("IAM"));
+el("tagEC2")?.addEventListener("click", ()=>appendTagToInput("EC2"));
+el("tagNW")?.addEventListener("click", ()=>appendTagToInput("NW"));
+
+el("glossAddBtn")?.addEventListener("click", ()=>{
+  const term = (el("glossNewTerm")?.value || "").trim();
+  const desc = (el("glossNewDesc")?.value || "").trim();
+  const tags = normalizeTags(el("glossNewTags")?.value || "");
+  if (!term || !desc){ alert("用語と説明を入力してください"); return; }
+
+  // 重複チェック（マスター＋ユーザー）
+  const user = loadUserGlossary();
+  const merged = [...GLOSSARY, ...user];
+  if (merged.some(x=> String(x.term).trim() === term)){
+    alert("同じ用語が既にあります（マスター/ユーザー含む）");
+    return;
+  }
+  user.push({ term, desc, tags });
+  saveUserGlossary(user);
+  el("glossNewTerm").value="";
+  el("glossNewDesc").value="";
+  el("glossNewTags").value="";
+  renderGloss();
+});
+
+el("glossExportUserBtn")?.addEventListener("click", exportUserGlossaryJson);
+
 
 el("histBtn").addEventListener("click", openHist);
 el("histClose").addEventListener("click", closeHist);
@@ -767,6 +863,37 @@ function copyHistoryAll(){
 el("histMask").addEventListener("click", (e)=>{ if(e.target.id==="histMask") closeHist(); });
 el("histFilter").addEventListener("change", renderHist);
 el("histSearch").addEventListener("input", renderHist);
+
+
+// --- Right-click selection → Glossary add ---
+function openGlossWithSelection(){
+  const sel = (window.getSelection && window.getSelection().toString()) ? window.getSelection().toString().trim() : "";
+  if (!sel) return false;
+  openGloss();
+  // できるだけ短い語に（長文選択事故防止）
+  const term = sel.length > 60 ? sel.slice(0,60) : sel;
+  const tEl = el("glossNewTerm");
+  if (tEl) tEl.value = term;
+  // 既存検索にも反映すると探しやすい
+  const sEl = el("glossSearch");
+  if (sEl) sEl.value = term;
+  renderGloss();
+  setTimeout(()=>{ el("glossNewDesc")?.focus(); }, 0);
+  return true;
+}
+
+function bindGlossRightClick(){
+  const targets = [el("qStem"), el("choices")].filter(Boolean);
+  for (const t of targets){
+    if (t.dataset.rcBound) continue;
+    t.dataset.rcBound = "1";
+    t.addEventListener("contextmenu", (e)=>{
+      // 選択がある時だけ、右クリックを「用語追加」扱いにする
+      const ok = openGlossWithSelection();
+      if (ok){ e.preventDefault(); }
+    });
+  }
+}
 
 // shortcuts
 document.addEventListener("keydown",(e)=>{
