@@ -25,6 +25,11 @@ select,button,input{font:inherit}
 .btn:hover{border-color:rgba(255,255,255,.22)}
 .btn{ white-space:nowrap; }
 .btn:disabled{opacity:.45;cursor:not-allowed;border-color:rgba(255,255,255,.08)}
+.jumpRow{gap:10px; align-items:center; flex-wrap:wrap;}
+.jumpRow .jumpLabel{color:var(--muted); font-size:13px;}
+.jumpRow input[type="number"]{width:110px; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03); color:var(--text);}
+.jumpRow select{min-width:130px;}
+.jumpRow .jumpNow{color:var(--muted); font-size:12px;}
 .btn.primary{background:linear-gradient(180deg,#2f80ff,#1c63d8);border-color:rgba(78,161,255,.35)}
 .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
 main{max-width:1200px;margin:0 auto;padding:18px 12px 90px;}
@@ -139,6 +144,15 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
       <button id="prevBtn" class="btn">前へ</button>
       <button id="nextBtn" class="btn">次へ</button>
     </div>
+
+    <div class="row jumpRow" style="margin-top:10px">
+      <span class="jumpLabel">ジャンプ：</span>
+      <input id="jumpInput" type="number" min="1" step="1" inputmode="numeric" placeholder="番号" />
+      <button id="jumpBtn" class="btn">移動</button>
+      <select id="jumpSelect" class="sel" title="番号を選択してジャンプ"></select>
+      <span id="jumpNow" class="jumpNow"></span>
+    </div>
+
 
     <div id="resultPanel" class="panel hidden" style="margin-top:12px"></div>
     <div id="answerPanel" class="panel hidden" style="margin-top:12px"></div>
@@ -376,6 +390,68 @@ function updateNavButtons(){
   next.disabled = (!has || qIndex >= activeList.length - 1);
 }
 
+function jumpTo(n){
+  if (!activeList.length) return;
+  const num = Number(n);
+  if (!Number.isFinite(num)) return;
+  const idx = Math.min(Math.max(Math.floor(num) - 1, 0), activeList.length - 1);
+  qIndex = idx;
+  render();
+  // 画面上部へ（スマホで見失いにくい）
+  try { window.scrollTo({top:0, behavior:"smooth"}); } catch(e) { window.scrollTo(0,0); }
+}
+
+function updateJumpUI(){
+  const inp = el("jumpInput");
+  const btn = el("jumpBtn");
+  const sel = el("jumpSelect");
+  const now = el("jumpNow");
+  const total = activeList.length;
+  if (!inp || !btn || !sel || !now) return;
+
+  // enable/disable
+  const has = total > 0;
+  inp.disabled = !has;
+  btn.disabled = !has;
+  sel.disabled = !has;
+
+  if (!has){
+    inp.value = "";
+    sel.innerHTML = "";
+    now.textContent = "";
+    return;
+  }
+
+  // input max/current
+  inp.max = String(total);
+  inp.value = String(qIndex + 1);
+  now.textContent = `（現在 ${qIndex+1} / ${total}）`;
+
+  // build select only when needed
+  if (sel.options.length !== total){
+    const cur = qIndex + 1;
+    sel.innerHTML = "";
+    for (let i=1;i<=total;i++){
+      const opt = document.createElement("option");
+      opt.value = String(i);
+      opt.textContent = String(i);
+      sel.appendChild(opt);
+    }
+    sel.value = String(cur);
+  } else {
+    sel.value = String(qIndex + 1);
+  }
+
+  // bind once
+  if (!btn.dataset.bound){
+    btn.dataset.bound = "1";
+    btn.addEventListener("click", ()=> jumpTo(inp.value));
+    inp.addEventListener("keydown", (e)=>{ if (e.key==="Enter") jumpTo(inp.value); });
+    sel.addEventListener("change", ()=> jumpTo(sel.value));
+  }
+}
+
+
 function render() {
   if (!activeList.length) {
     el("qTitle").textContent = "表示対象なし";
@@ -385,6 +461,7 @@ function render() {
     el("choices").innerHTML = "";
     setPanelsHidden();
     updateNavButtons();
+    updateJumpUI();
     return;
   }
   const q = activeList[qIndex];
@@ -426,6 +503,7 @@ function render() {
 
   setPanelsHidden();
   updateNavButtons();
+  updateJumpUI();
 }
 
 function onSelect(q, key, checked) {
