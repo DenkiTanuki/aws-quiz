@@ -57,6 +57,18 @@ kbd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);bord
 .modal{width:min(920px,100%);max-height:85vh;overflow:auto;background:linear-gradient(180deg,#0c1520,#070c12);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
 .modal .head{display:flex;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(12,21,32,.92);backdrop-filter: blur(10px);padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
 .modal .list{margin-top:10px}
+/* Glossary add panel: keep visible while scrolling list */
+.modal{display:flex;flex-direction:column;}
+.modal .list{flex:1; overflow:auto; padding-right:4px;}
+.glossAddPanel{position:sticky; top:66px; z-index:5; margin-top:10px; background:linear-gradient(180deg,rgba(12,21,32,.92),rgba(12,21,32,.65)); backdrop-filter: blur(10px);}
+.glossAddPanel .row{flex-wrap:wrap;}
+.glossAddPanel .sel{min-width:180px;}
+@media (max-width: 520px){
+  .glossAddPanel{top:58px;}
+  .glossAddPanel #glossNewTerm{width:100% !important;}
+  .glossAddPanel #glossNewDesc{min-width:0 !important;}
+  .glossAddPanel #glossNewTags{min-width:0 !important;}
+}
 .item{padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.14);margin:10px 0;cursor:pointer}
 .item:hover{border-color:rgba(255,255,255,.18)}
 .item .tt{font-weight:700}
@@ -187,7 +199,7 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
       </div>
       <div class="row"><button class="btn" id="glossExportUserBtn">ユーザー用語Export</button><button class="btn" id="glossClose">閉じる</button></div>
     </div>
-    <div class="panel" style="margin-top:10px">
+    <div class="panel glossAddPanel">
       <div class="row" style="gap:8px">
         <input id="glossNewTerm" class="sel" style="width:min(260px,100%)" placeholder="右クリック選択→ここに入ります（用語）"/>
         <input id="glossNewDesc" class="sel" style="flex:1;min-width:240px" placeholder="説明（短くでOK）"/>
