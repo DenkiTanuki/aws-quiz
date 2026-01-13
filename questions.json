@@ -5041,16 +5041,32 @@
     "multi": false
   },
   {
-    "id": "custom-iam-001",
-    "chapter": "独自問題",
-    "question": "IAMユーザーでAWSマネジメントコンソールにログインしたところ、「Billing and Cost Management」がアクセス拒否（Access denied）となりました。最も適切な説明はどれですか？",
+    "id": "gpt-4",
+    "chapter": 999,
+    "qnum": 3,
+    "stem": "【独自問題】IAMユーザーでAWSマネジメントコンソールにログインしたところ、「Billing and Cost Management」がアクセス拒否（Access denied）となりました。最も適切な説明はどれですか？",
     "choices": [
-      "IAMユーザーには課金情報へのアクセス権がデフォルトで付与されていないため",
-      "IAMユーザーではMFAを有効化していないため",
-      "AWS Organizationsを使用していないため",
-      "リージョンが us-east-2 に設定されているため"
+      {
+        "key": "A"
+        "text": "IAMユーザーには課金情報へのアクセス権がデフォルトで付与されていないため",
+      },
+      {
+        "key": "B"
+        "text": "IAMユーザーではMFAを有効化していないため",
+      },
+      {
+        "key": "C"
+        "text": "AWS Organizationsを使用していないため",
+      },
+      {
+        "key": "D"
+        "text": "リージョンが us-east-2 に設定されているため"
+      }
     ],
-    "answer": 0,
-    "explanation": "Billing and Cost Management へのアクセスはデフォルトではルートユーザーのみ許可されています。IAMユーザーから参照・操作するには明示的にポリシーを付与する必要があります。アクセス拒否になる状態は、むしろ正常で安全な状態です。"
+    "answer": [
+      "A"
+    ],
+    "explanation": "Billing and Cost Management へのアクセスはデフォルトではルートユーザーのみ許可されています。IAMユーザーから参照・操作するには明示的にポリシーを付与する必要があります。アクセス拒否になる状態は、むしろ正常で安全な状態です。",    "required": 1,
+    "multi": false
   }
 ]
