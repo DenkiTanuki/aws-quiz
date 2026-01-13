@@ -5048,15 +5048,15 @@
     "choices": [
       {
         "key": "A",
-        "text": "IAMユーザーには課金情報へのアクセス権がデフォルトで付与されていないため",
+        "text": "IAMユーザーには課金情報へのアクセス権がデフォルトで付与されていないため"
       },
       {
         "key": "B",
-        "text": "IAMユーザーではMFAを有効化していないため",
+        "text": "IAMユーザーではMFAを有効化していないため"
       },
       {
         "key": "C",
-        "text": "AWS Organizationsを使用していないため",
+        "text": "AWS Organizationsを使用していないため"
       },
       {
         "key": "D",
