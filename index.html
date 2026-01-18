@@ -76,7 +76,7 @@ main{max-width:1200px;margin:0 auto;padding:18px 12px 90px;}
 kbd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:8px;padding:2px 6px;font-size:12px}
 /* Modal */
 .modalMask{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
-.modal{width:min(920px,100%);max-height:85vh;overflow:auto;background:linear-gradient(180deg,#0c1520,#070c12);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.modal{width:min(920px,100%);max-height:85vh;overflow:auto;  background: linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
 .modal .head{display:flex;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(12,21,32,.92);backdrop-filter: blur(10px);padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
 .modal .list{margin-top:10px}
 /* ===== Glossary readability tuning ===== */
@@ -91,7 +91,7 @@ kbd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);bord
 /* Glossary add panel: keep visible while scrolling list */
 .modal{display:flex;flex-direction:column;}
 .modal .list{flex:1; overflow:auto; padding-right:4px;}
-.glossAddPanel{position:sticky; top:66px; z-index:5; margin-top:10px; background:linear-gradient(180deg,rgba(12,21,32,.92),rgba(12,21,32,.65)); backdrop-filter: blur(10px);}
+.glossAddPanel{position:sticky; top:66px; z-index:5; margin-top:10px; background: linear-gradient(180deg,color-mix(in srgb,var(--panel) 92%,transparent), color-mix(in srgb, var(--panel2) 65%, transparent)); backdrop-filter: blur(10px);}
 .glossAddPanel.isClosed{display:none;}
 .glossAddPanel .row{flex-wrap:wrap;}
 .glossAddPanel .sel{min-width:180px;}
