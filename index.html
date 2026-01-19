@@ -7,44 +7,17 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="AWS問題集"/>
-<title>AWS 問題集（PC版 Fix）</title>
+<title>AWS 問題集 v1.0.1</title>
 <style>
 :root {
-  /* Theme variables (default: dark) */
   --bg0:#070a0f; --bg1:#0c121b; --panel:#101a26; --panel2:#0d1620;
-  --line:#1a2a3a; --text:#e6eef7; --muted:#a9b6c5;
-  --accent:#4ea1ff; --bad:#ff5a6b; --good:#52d27d;
+  --line:#1a2a3a; --text:#e6eef7; --muted:#a9b6c5; --accent:#4ea1ff; --bad:#ff5a6b; --good:#52d27d;
   --btn:#122235;
-  --pagebg: radial-gradient(1200px 800px at 50% -100px,#18283c 0%,var(--bg0) 55%,#000 100%);
-  --barbg: rgba(6,10,15,.78);
-  --barborder: rgba(255,255,255,.06);
-}
-
-/* Light theme */
-body[data-theme="light"]{
-  --bg0:#f6f7fb; --bg1:#ffffff; --panel:#ffffff; --panel2:#f2f4f8;
-  --line:#d8dde6; --text:#121722; --muted:#4a5568;
-  --accent:#1d6fff; --bad:#d53a4a; --good:#1f8f52;
-  --btn:#eef2f7;
-  --pagebg: linear-gradient(180deg,#ffffff 0%,#f4f6fb 55%,#eef1f6 100%);
-  --barbg: rgba(255,255,255,.80);
-  --barborder: rgba(18,23,34,.12);
-}
-
-/* Beige theme */
-body[data-theme="beige"]{
-  --bg0:#f5f1e8; --bg1:#fffdf8; --panel:#fffdf8; --panel2:#f5efe3;
-  --line:#d7cfc1; --text:#1a1a1a; --muted:#5a544a;
-  --accent:#2a7de1; --bad:#c83a47; --good:#21824f;
-  --btn:#f1eadc;
-  --pagebg: linear-gradient(180deg,#fffdf8 0%,#f5f1e8 60%,#efe6d6 100%);
-  --barbg: rgba(255,253,248,.82);
-  --barborder: rgba(26,26,26,.12);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust: 100%; text-size-adjust: 100%;}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;background:var(--pagebg);color:var(--text); -webkit-text-size-adjust: 100%; text-size-adjust: 100%;}
-header{position:sticky;top:0;z-index:10;background:var(--barbg);backdrop-filter: blur(10px);border-bottom:1px solid var(--barborder);}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;background:radial-gradient(1200px 800px at 50% -100px,#18283c 0%,var(--bg0) 55%,#000 100%);color:var(--text); -webkit-text-size-adjust: 100%; text-size-adjust: 100%;}
+header{position:sticky;top:0;z-index:10;background:rgba(6,10,15,.78);backdrop-filter: blur(10px);border-bottom:1px solid rgba(255,255,255,.06);}
 .topbar{max-width:1200px;margin:0 auto;padding:10px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 select,button,input{font:inherit}
 .sel{background:var(--panel2);color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;}
@@ -52,6 +25,11 @@ select,button,input{font:inherit}
 .btn:hover{border-color:rgba(255,255,255,.22)}
 .btn{ white-space:nowrap; }
 .btn:disabled{opacity:.45;cursor:not-allowed;border-color:rgba(255,255,255,.08)}
+.jumpRow{gap:10px; align-items:center; flex-wrap:wrap;}
+.jumpRow .jumpLabel{color:var(--muted); font-size:13px;}
+.jumpRow input[type="number"]{width:110px; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03); color:var(--text);}
+.jumpRow select{min-width:130px;}
+.jumpRow .jumpNow{color:var(--muted); font-size:12px;}
 .btn.primary{background:linear-gradient(180deg,#2f80ff,#1c63d8);border-color:rgba(78,161,255,.35)}
 .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
 .tag{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(78,161,255,.12);border:1px solid rgba(78,161,255,.22);color:var(--text);font-size:12px;margin-right:6px;margin-top:6px}
@@ -66,7 +44,7 @@ main{max-width:1200px;margin:0 auto;padding:18px 12px 90px;}
 .choice .k{min-width:28px;height:28px;border-radius:10px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
 .choice .t{line-height:1.55;white-space:pre-wrap}
 .sep{height:1px;background:rgba(255,255,255,.08);margin:14px 0}
-.footerbar{position:fixed;left:0;right:0;bottom:0;background:var(--barbg);backdrop-filter: blur(10px);border-top:1px solid var(--barborder);}
+.footerbar{position:fixed;left:0;right:0;bottom:0;background:rgba(6,10,15,.78);backdrop-filter: blur(10px);border-top:1px solid rgba(255,255,255,.06);}
 .footerbar .inner{max-width:1200px;margin:0 auto;padding:10px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between}
 .small{font-size:12px;color:var(--muted)}
 .panel{border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:12px 14px;background:rgba(0,0,0,.18);white-space:pre-wrap}
@@ -76,16 +54,9 @@ main{max-width:1200px;margin:0 auto;padding:18px 12px 90px;}
 kbd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:8px;padding:2px 6px;font-size:12px}
 /* Modal */
 .modalMask{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
-.modal{width:min(920px,100%);max-height:85vh;overflow:auto;  background: linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
-.modal .head{display:flex;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;background:color-mix(in srgb, var(--panel) 92%, transparent);backdrop-filter: blur(10px);padding:10px;border-radius:14px;border:1px solid var(--barborder)}
+.modal{width:min(920px,100%);max-height:85vh;overflow:auto;background:linear-gradient(180deg,#0c1520,#070c12);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.modal .head{display:flex;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(12,21,32,.92);backdrop-filter: blur(10px);padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
 .modal .list{margin-top:10px}
-/* Modal theme-follow: keep popups readable in light/beige */
-.modalMask{background:rgba(0,0,0,.45)}
-body[data-theme="light"] .modalMask{background:rgba(0,0,0,.28)}
-body[data-theme="beige"] .modalMask{background:rgba(0,0,0,.28)}
-.modal .item{background:color-mix(in srgb, var(--panel2) 92%, transparent);border-color:color-mix(in srgb, var(--line) 70%, transparent)}
-.modal .item:hover{border-color:color-mix(in srgb, var(--line) 100%, transparent)}
-.modal .head .badge{background:color-mix(in srgb, var(--panel2) 85%, transparent);border-color:var(--barborder);color:var(--muted)}
 /* ===== Glossary readability tuning ===== */
 .modal{color:var(--text);}
 .modal .head{border-color:rgba(255,255,255,.10);}
@@ -98,7 +69,7 @@ body[data-theme="beige"] .modalMask{background:rgba(0,0,0,.28)}
 /* Glossary add panel: keep visible while scrolling list */
 .modal{display:flex;flex-direction:column;}
 .modal .list{flex:1; overflow:auto; padding-right:4px;}
-.glossAddPanel{position:sticky; top:66px; z-index:5; margin-top:10px; background: linear-gradient(180deg,color-mix(in srgb,var(--panel) 92%,transparent), color-mix(in srgb, var(--panel2) 65%, transparent)); backdrop-filter: blur(10px);}
+.glossAddPanel{position:sticky; top:66px; z-index:5; margin-top:10px; background:linear-gradient(180deg,rgba(12,21,32,.92),rgba(12,21,32,.65)); backdrop-filter: blur(10px);}
 .glossAddPanel.isClosed{display:none;}
 .glossAddPanel .row{flex-wrap:wrap;}
 .glossAddPanel .sel{min-width:180px;}
@@ -149,10 +120,32 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
   /* ラジオ/チェックは少しだけ大きく（押しやすさ維持） */
   .choice input{ width:20px; height:20px; margin-top:2px; }
 
-  .topbar{ flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  /* --- v1.0.1: iPhone top bar layout fixes (prevent badge squish) --- */
+  .topbar{ flex-wrap:wrap; overflow:visible; }
   .topbar::-webkit-scrollbar{ display:none; }
-  .footerbar .row{ flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
+  /* 1st row: chapter / mode / theme */
+  #chapterSel{ order:1; flex:1 1 32%; min-width:0; }
+  #modeSel{ order:2; flex:1 1 32%; min-width:0; }
+  #themeSel{ order:3; flex:1 1 32%; min-width:0; }
+
+  /* 2nd row: glossary / history / status */
+  #glossBtn{ order:4; }
+  #histBtn{ order:5; }
+  #statusBadge{ order:6; flex:1 1 auto; min-width:0; white-space:nowrap; }
+
+  /* Make selects a bit tighter on iPhone */
+  .topbar .sel{ padding:8px 9px; }
+
+  /* --- v1.0.1: bottom filter bar wrap (no overflow) --- */
+  .footerbar .row{ flex-wrap:wrap; overflow:visible; -webkit-overflow-scrolling:touch; }
   .footerbar .row::-webkit-scrollbar{ display:none; }
+  .footerbar .row .btn{ flex:1 1 45%; }
+
+  /* --- v1.0.1: modal width on iPhone (prevent right cut) --- */
+  .modalMask{ padding:8px; }
+  .modal{ width: calc(100vw - 16px); max-width: calc(100vw - 16px); }
+  .modal .head{ flex-wrap:wrap; gap:8px; }
 
    main .card .row{ flex-wrap:wrap; }
    main .card .row .btn{ flex:1 1 45%; } /* 2列っぽく均等 */
@@ -202,6 +195,15 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
       <button id="prevBtn" class="btn">前へ</button>
       <button id="nextBtn" class="btn">次へ</button>
     </div>
+
+    <div class="row jumpRow" style="margin-top:10px">
+      <span class="jumpLabel">ジャンプ：</span>
+      <input id="jumpInput" type="number" min="1" step="1" inputmode="numeric" placeholder="番号" />
+      <button id="jumpBtn" class="btn">移動</button>
+      <select id="jumpSelect" class="sel" title="番号を選択してジャンプ"></select>
+      <span id="jumpNow" class="jumpNow"></span>
+    </div>
+
 
     <div id="resultPanel" class="panel hidden" style="margin-top:12px"></div>
     <div id="answerPanel" class="panel hidden" style="margin-top:12px"></div>
@@ -337,12 +339,10 @@ function inferMissingAnswers(){
 
 const LS_KEY = "aws_quiz_attempts_v1";
 const LS_GLOSS_USER = "aws_quiz_user_glossary_v1";
-const LS_THEME = "aws_quiz_theme_v1";
 
 let attempts = loadAttempts();
 let chapterSel = document.getElementById("chapterSel");
 let modeSel = document.getElementById("modeSel");
-let themeSel = document.getElementById("themeSel");
 let statusBadge = document.getElementById("statusBadge");
 
 let qIndex = 0;
@@ -353,18 +353,6 @@ let unansweredOnly = false;
 let showExplain = false;
 
 function el(id){ return document.getElementById(id); }
-
-function applyTheme(theme){
-  const t = (theme === "light" || theme === "beige") ? theme : "dark";
-  document.body.setAttribute("data-theme", t);
-  // ブラウザのUI色（アドレスバー等）もなるべく合わせる
-  const meta = document.querySelector("meta[name='theme-color']");
-  if (meta){
-    meta.setAttribute("content", t==="light" ? "#ffffff" : (t==="beige" ? "#fffdf8" : "#070a0f"));
-  }
-  try { lsSet(LS_THEME, t); } catch(e) {}
-  if (themeSel) themeSel.value = t;
-}
 
 function stripLeak(s) {
   if (!s) return "";
@@ -493,6 +481,68 @@ function updateNavButtons(){
   next.disabled = (!has || qIndex >= activeList.length - 1);
 }
 
+function jumpTo(n){
+  if (!activeList.length) return;
+  const num = Number(n);
+  if (!Number.isFinite(num)) return;
+  const idx = Math.min(Math.max(Math.floor(num) - 1, 0), activeList.length - 1);
+  qIndex = idx;
+  render();
+  // 画面上部へ（スマホで見失いにくい）
+  try { window.scrollTo({top:0, behavior:"smooth"}); } catch(e) { window.scrollTo(0,0); }
+}
+
+function updateJumpUI(){
+  const inp = el("jumpInput");
+  const btn = el("jumpBtn");
+  const sel = el("jumpSelect");
+  const now = el("jumpNow");
+  const total = activeList.length;
+  if (!inp || !btn || !sel || !now) return;
+
+  // enable/disable
+  const has = total > 0;
+  inp.disabled = !has;
+  btn.disabled = !has;
+  sel.disabled = !has;
+
+  if (!has){
+    inp.value = "";
+    sel.innerHTML = "";
+    now.textContent = "";
+    return;
+  }
+
+  // input max/current
+  inp.max = String(total);
+  inp.value = String(qIndex + 1);
+  now.textContent = `（現在 ${qIndex+1} / ${total}）`;
+
+  // build select only when needed
+  if (sel.options.length !== total){
+    const cur = qIndex + 1;
+    sel.innerHTML = "";
+    for (let i=1;i<=total;i++){
+      const opt = document.createElement("option");
+      opt.value = String(i);
+      opt.textContent = String(i);
+      sel.appendChild(opt);
+    }
+    sel.value = String(cur);
+  } else {
+    sel.value = String(qIndex + 1);
+  }
+
+  // bind once
+  if (!btn.dataset.bound){
+    btn.dataset.bound = "1";
+    btn.addEventListener("click", ()=> jumpTo(inp.value));
+    inp.addEventListener("keydown", (e)=>{ if (e.key==="Enter") jumpTo(inp.value); });
+    sel.addEventListener("change", ()=> jumpTo(sel.value));
+  }
+}
+
+
 function render() {
   if (!activeList.length) {
     el("qTitle").textContent = "表示対象なし";
@@ -502,6 +552,7 @@ function render() {
     el("choices").innerHTML = "";
     setPanelsHidden();
     updateNavButtons();
+    updateJumpUI();
     bindGlossRightClick();
     return;
   }
@@ -544,6 +595,7 @@ function render() {
 
   setPanelsHidden();
   updateNavButtons();
+  updateJumpUI();
   bindGlossRightClick();
 }
 
@@ -595,14 +647,6 @@ function judge() {
                          : `× 不正解　あなた: ${sel.join(",") || "（未選択）"} / 正解: ${ansStr}`;
 
   el("qState").textContent = ok ? "○ 正解" : "× 不正解";
-
-  // 判定後は解答欄へ自動スクロール（問題文が長い場合でも「押した感」が分かるように）
-  const target = showExplain ? el("answerPanel") : el("resultPanel");
-  try {
-    target.scrollIntoView({behavior:"smooth", block:"start"});
-  } catch(e) {
-    try { window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY - 12); } catch(_) {}
-  }
 }
 
 function toggleExplain() {
@@ -953,15 +997,8 @@ async function init() {
   buildChapterOptions();
   chapterSel.value = lsGet("aws_quiz_chapter_sel") || "0";
   modeSel.value = lsGet("aws_quiz_mode_sel") || "normal";
-  const savedTheme = lsGet(LS_THEME) || "dark";
-  applyTheme(savedTheme);
-
   chapterSel.addEventListener("change", ()=>lsSet("aws_quiz_chapter_sel", chapterSel.value));
   modeSel.addEventListener("change", ()=>lsSet("aws_quiz_mode_sel", modeSel.value));
-  if (themeSel){
-    themeSel.value = savedTheme;
-    themeSel.addEventListener("change", ()=> applyTheme(themeSel.value));
-  }
   applyMode();
 }
 init();
