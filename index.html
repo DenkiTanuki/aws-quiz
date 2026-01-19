@@ -25,11 +25,6 @@ select,button,input{font:inherit}
 .btn:hover{border-color:rgba(255,255,255,.22)}
 .btn{ white-space:nowrap; }
 .btn:disabled{opacity:.45;cursor:not-allowed;border-color:rgba(255,255,255,.08)}
-.jumpRow{gap:10px; align-items:center; flex-wrap:wrap;}
-.jumpRow .jumpLabel{color:var(--muted); font-size:13px;}
-.jumpRow input[type="number"]{width:110px; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03); color:var(--text);}
-.jumpRow select{min-width:130px;}
-.jumpRow .jumpNow{color:var(--muted); font-size:12px;}
 .btn.primary{background:linear-gradient(180deg,#2f80ff,#1c63d8);border-color:rgba(78,161,255,.35)}
 .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
 .tag{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(78,161,255,.12);border:1px solid rgba(78,161,255,.22);color:var(--text);font-size:12px;margin-right:6px;margin-top:6px}
@@ -53,8 +48,9 @@ main{max-width:1200px;margin:0 auto;padding:18px 12px 90px;}
 .hidden{display:none !important}
 kbd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:8px;padding:2px 6px;font-size:12px}
 /* Modal */
-.modalMask{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
-.modal{width:min(920px,100%);max-height:85vh;overflow:auto;background:linear-gradient(180deg,#0c1520,#070c12);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.modalMask{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:12px;z-index:50}
+/* v1.0.1b: modal default size a bit smaller (PC) + never exceed viewport */
+.modal{width:min(840px,calc(100vw - 24px));max-height:82vh;overflow:auto;background:linear-gradient(180deg,#0c1520,#070c12);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
 .modal .head{display:flex;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(12,21,32,.92);backdrop-filter: blur(10px);padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
 .modal .list{margin-top:10px}
 /* ===== Glossary readability tuning ===== */
@@ -194,14 +190,6 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
       <button id="toggleExplainBtn" class="btn">解説を表示</button>
       <button id="prevBtn" class="btn">前へ</button>
       <button id="nextBtn" class="btn">次へ</button>
-    </div>
-
-    <div class="row jumpRow" style="margin-top:10px">
-      <span class="jumpLabel">ジャンプ：</span>
-      <input id="jumpInput" type="number" min="1" step="1" inputmode="numeric" placeholder="番号" />
-      <button id="jumpBtn" class="btn">移動</button>
-      <select id="jumpSelect" class="sel" title="番号を選択してジャンプ"></select>
-      <span id="jumpNow" class="jumpNow"></span>
     </div>
 
 
@@ -481,66 +469,6 @@ function updateNavButtons(){
   next.disabled = (!has || qIndex >= activeList.length - 1);
 }
 
-function jumpTo(n){
-  if (!activeList.length) return;
-  const num = Number(n);
-  if (!Number.isFinite(num)) return;
-  const idx = Math.min(Math.max(Math.floor(num) - 1, 0), activeList.length - 1);
-  qIndex = idx;
-  render();
-  // 画面上部へ（スマホで見失いにくい）
-  try { window.scrollTo({top:0, behavior:"smooth"}); } catch(e) { window.scrollTo(0,0); }
-}
-
-function updateJumpUI(){
-  const inp = el("jumpInput");
-  const btn = el("jumpBtn");
-  const sel = el("jumpSelect");
-  const now = el("jumpNow");
-  const total = activeList.length;
-  if (!inp || !btn || !sel || !now) return;
-
-  // enable/disable
-  const has = total > 0;
-  inp.disabled = !has;
-  btn.disabled = !has;
-  sel.disabled = !has;
-
-  if (!has){
-    inp.value = "";
-    sel.innerHTML = "";
-    now.textContent = "";
-    return;
-  }
-
-  // input max/current
-  inp.max = String(total);
-  inp.value = String(qIndex + 1);
-  now.textContent = `（現在 ${qIndex+1} / ${total}）`;
-
-  // build select only when needed
-  if (sel.options.length !== total){
-    const cur = qIndex + 1;
-    sel.innerHTML = "";
-    for (let i=1;i<=total;i++){
-      const opt = document.createElement("option");
-      opt.value = String(i);
-      opt.textContent = String(i);
-      sel.appendChild(opt);
-    }
-    sel.value = String(cur);
-  } else {
-    sel.value = String(qIndex + 1);
-  }
-
-  // bind once
-  if (!btn.dataset.bound){
-    btn.dataset.bound = "1";
-    btn.addEventListener("click", ()=> jumpTo(inp.value));
-    inp.addEventListener("keydown", (e)=>{ if (e.key==="Enter") jumpTo(inp.value); });
-    sel.addEventListener("change", ()=> jumpTo(sel.value));
-  }
-}
 
 
 function render() {
@@ -552,7 +480,6 @@ function render() {
     el("choices").innerHTML = "";
     setPanelsHidden();
     updateNavButtons();
-    updateJumpUI();
     bindGlossRightClick();
     return;
   }
@@ -595,7 +522,6 @@ function render() {
 
   setPanelsHidden();
   updateNavButtons();
-  updateJumpUI();
   bindGlossRightClick();
 }
 
