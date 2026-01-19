@@ -50,7 +50,7 @@ kbd{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);bord
 /* Modal */
 .modalMask{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:12px;z-index:50}
 /* v1.0.1b: modal default size a bit smaller (PC) + never exceed viewport */
-.modal{width:min(840px,calc(100vw - 24px));max-height:82vh;overflow:auto;background:linear-gradient(180deg,#0c1520,#070c12);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.modal{width:min(840px,calc(100vw - 24px));max-height:82vh;max-height:calc(100dvh - 24px);overflow:auto;background:linear-gradient(180deg,#0c1520,#070c12);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
 .modal .head{display:flex;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(12,21,32,.92);backdrop-filter: blur(10px);padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
 .modal .list{margin-top:10px}
 /* ===== Glossary readability tuning ===== */
@@ -102,8 +102,9 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
   header{ padding-top: var(--safe-t); }
   .topbar{ gap:8px; padding:8px 10px; }
 
-  /* iOS zoom対策：inputは16px維持。ボタン類は小さく */
+  /* iOS zoom対策：inputは16px維持（.selが13pxを上書きしてズームするのを防ぐ） */
   input{ font-size:16px; }
+  input.sel{ font-size:16px; }
   .sel,.btn{ font-size:13px; }
 
   .sel,.btn{ padding:8px 10px; border-radius:12px; }
@@ -599,11 +600,21 @@ function go(delta) {
   render();
 }
 
+// iPhone等で input にフォーカスすると Safari がズーム/レイアウト変更し、モーダルが"巨大化"して見えることがあるため
+// スマホ（coarse pointer または狭幅）では自動フォーカスしない。
+function shouldAutoFocusInModal(){
+  try{
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return false;
+    if (window.innerWidth && window.innerWidth <= 520) return false;
+  }catch(e){}
+  return true;
+}
+
 function openGloss() {
   el("glossMask").style.display="flex";
   initGlossAddToggle();
   renderGloss();
-  el("glossSearch").focus();
+  if (shouldAutoFocusInModal()) el("glossSearch").focus();
 }
 function closeGloss() { el("glossMask").style.display="none"; }
 function renderGloss() {
@@ -644,7 +655,7 @@ function renderGloss() {
 function openHist() {
   el("histMask").style.display="flex";
   renderHist();
-  el("histSearch").focus();
+  if (shouldAutoFocusInModal()) el("histSearch").focus();
 }
 function closeHist() { el("histMask").style.display="none"; }
 function renderHist() {
@@ -878,7 +889,8 @@ function openGlossWithSelection(){
   const sEl = el("glossSearch");
   if (sEl) sEl.value = term;
   renderGloss();
-  setTimeout(()=>{ el("glossNewDesc")?.focus(); }, 0);
+  // スマホでは自動フォーカスを避ける（iOS Safari のズーム/レイアウト変更対策）
+  if (shouldAutoFocusInModal()) setTimeout(()=>{ el("glossNewDesc")?.focus(); }, 0);
   return true;
 }
 
