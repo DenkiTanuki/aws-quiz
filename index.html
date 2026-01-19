@@ -54,29 +54,28 @@ select,button,input{font:inherit}
 .btn:disabled{opacity:.45;cursor:not-allowed;border-color:rgba(255,255,255,.08)}
 .btn.primary{background:linear-gradient(180deg,#2f80ff,#1c63d8);border-color:rgba(78,161,255,.35)}
 
-/* Light/Beige: increase contrast for key action buttons (Explain / Prev / Next) */
+/* Light/Beige themes: make key navigation buttons slightly darker for readability */
 body[data-theme="light"] #toggleExplainBtn,
 body[data-theme="light"] #prevBtn,
 body[data-theme="light"] #nextBtn{
-  background: #dfe6f1;
-  border-color: rgba(18,23,34,.22);
+  background: rgba(30,45,70,.92);
+  border-color: rgba(15,25,40,.55);
 }
 body[data-theme="light"] #toggleExplainBtn:hover,
 body[data-theme="light"] #prevBtn:hover,
 body[data-theme="light"] #nextBtn:hover{
-  border-color: rgba(18,23,34,.32);
+  border-color: rgba(15,25,40,.80);
 }
-
 body[data-theme="beige"] #toggleExplainBtn,
 body[data-theme="beige"] #prevBtn,
 body[data-theme="beige"] #nextBtn{
-  background: #e7ddcc;
-  border-color: rgba(26,26,26,.20);
+  background: rgba(30,45,70,.92);
+  border-color: rgba(15,25,40,.55);
 }
 body[data-theme="beige"] #toggleExplainBtn:hover,
 body[data-theme="beige"] #prevBtn:hover,
 body[data-theme="beige"] #nextBtn:hover{
-  border-color: rgba(26,26,26,.30);
+  border-color: rgba(15,25,40,.80);
 }
 .badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
 .tag{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(78,161,255,.12);border:1px solid rgba(78,161,255,.22);color:var(--text);font-size:12px;margin-right:6px;margin-top:6px}
@@ -669,9 +668,10 @@ function toggleExplain() {
   const ansStr = (q.answer && q.answer.length) ? q.answer.join(",") : "（未登録）";
   const exp = stripLeak(q.explanation || "（解説なし）");
   p.textContent = `正解： ${ansStr}\n\n${exp}`;
-  // ▼ v1.0.1: after showing explanation, scroll to the answer area (mobile-friendly)
+
+  // ▼ v1.0.1: when showing explanation, also scroll to the answer area
   if (p && p.scrollIntoView) {
-    p.scrollIntoView({behavior:\"smooth\", block:\"start\"});
+    p.scrollIntoView({behavior:"smooth", block:"start"});
   }
 }
 function go(delta) {
