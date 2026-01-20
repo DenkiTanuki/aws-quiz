@@ -518,7 +518,8 @@ function updateStatus() {
       if (a.correct) correct++;
     }
   }
-  statusBadge.textContent = `正解 ${correct}（回答済 ${answered}） / ${total}問`;
+  const rate = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+  statusBadge.textContent = `正解 ${correct}（回答済 ${answered} / 正解率 ${rate}%） / ${total}問`;
 }
 
 function setPanelsHidden() {
