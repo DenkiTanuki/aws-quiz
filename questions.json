@@ -2835,7 +2835,7 @@
     "answer": [
       "D"
     ],
-    "explanation": "DynamoDBテーブルにデータを保存するためには、Kinesis Data StreamsをトリガーとしたLambda関数を使用して、DynamoDBテーブルにアイテムを保存するコードをデプロイします。\nA. OpenSearch Serviceはデータ分析やモニタリングのサービスです。\nB~ QuickSightはグラフで可視化して分析のできるBIサービスです。\nC. Redshiftは列指向型のDWHサービスです。",
+    "explanation": "DynamoDBテーブルにデータを保存するためには、Kinesis Data StreamsをトリガーとしたLambda関数を使用して、DynamoDBテーブルにアイテムを保存するコードをデプロイします。\nA. OpenSearch Serviceはデータ分析やモニタリングのサービスです。\nB. QuickSightはグラフで可視化して分析のできるBIサービスです。\nC. Redshiftは列指向型のDWHサービスです。",
     "required": 1,
     "multi": false
   },
@@ -2865,7 +2865,7 @@
     "answer": [
       "C"
     ],
-    "explanation": "IoTGreengrassにより、IoTデバイス(エッジ)側でLambda関数を実行できます。\nA.Fargateはコンテナを実行するためのサーパーレス環境です。\nB. IoT Coreは、MQTTプロトコルなどでIoTデバイスからのデータを受信して、AWSサービスへ連携させるためのサービスです。\nD. GlueはETLジョブによりデータを連携し、クローラーによりデータカタログテーブルを作成できます。",
+    "explanation": "IoTGreengrassにより、IoTデバイス(エッジ)側でLambda関数を実行できます。\nA. Fargateはコンテナを実行するためのサーパーレス環境です。\nB. IoT Coreは、MQTTプロトコルなどでIoTデバイスからのデータを受信して、AWSサービスへ連携させるためのサービスです。\nD. GlueはETLジョブによりデータを連携し、クローラーによりデータカタログテーブルを作成できます。",
     "required": 1,
     "multi": false
   },
@@ -2925,7 +2925,7 @@
     "answer": [
       "B"
     ],
-    "explanation": "パッチマネージャーのパッチグループに一括でセキュリティパッチを適用できます。\nA.セッションマネージャーでは1つ1つのサーバーでコマンドを実行する必要があります。対話的にコマンドを実行したい場合に使用します。\nC. AppConfigはプログラム実行環境のローカルで参照する設定を、バージョン管理してデプロイする機能です。\nD. パラメータストアは複数のアプリケーションから共通使用できる外部パラメータを管理するものです。",
+    "explanation": "パッチマネージャーのパッチグループに一括でセキュリティパッチを適用できます。\nA. セッションマネージャーでは1つ1つのサーバーでコマンドを実行する必要があります。対話的にコマンドを実行したい場合に使用します。\nC. AppConfigはプログラム実行環境のローカルで参照する設定を、バージョン管理してデプロイする機能です。\nD. パラメータストアは複数のアプリケーションから共通使用できる外部パラメータを管理するものです。",
     "required": 1,
     "multi": false
   },
@@ -3135,7 +3135,7 @@
     "answer": [
       "D"
     ],
-    "explanation": "CodePipelineでソースコードの更新をトリガーに、ビルド、デプロイなどを自動で順番に実行できます。 ビルドでエラーがあればデプロイには進まずに停止できます。\nA. CodeCommitはソースコードのバージョン管理ができるGitのマネージドサービスで、CI/CDパイプラインが実行されるトリガーにできます。\nB. CodeBuildはビルドを自動実行するサービスで、CodePipelineにより実行できます。\nC. CodeDeployはデプロイを安全に自動化するサービスで、CodePipelineにより実行できます。",
+    "explanation": "CodePipelineでソースコードの更新をトリガーに、ビルド、デプロイなどを自動で順番に実行できます。ビルドでエラーがあればデプロイには進まずに停止できます。\nA. CodeCommitはソースコードのバージョン管理ができるGitのマネージドサービスで、CI/CDパイプラインが実行されるトリガーにできます。\nB. CodeBuildはビルドを自動実行するサービスで、CodePipelineにより実行できます。\nC. CodeDeployはデプロイを安全に自動化するサービスで、CodePipelineにより実行できます。",
     "required": 1,
     "multi": false
   },
