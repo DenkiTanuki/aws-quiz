@@ -288,6 +288,7 @@ main{ padding-bottom: calc(90px + var(--safe-b)); }
         <input id="glossNewTags" class="sel" style="flex:1;min-width:220px" placeholder="例：IAM, EC2, NW（カンマ区切り）"/>
         <button class="btn" id="tagIAM">IAM</button>
         <button class="btn" id="tagEC2">EC2</button>
+        <button class="btn" id="tagNW">ST</button>
         <button class="btn" id="tagNW">NW</button>
         <button class="btn" id="tagDB">DB</button>
         <button class="btn" id="tagAI">AI</button>
@@ -820,6 +821,7 @@ function appendTagToInput(tag){
 
 el("tagIAM")?.addEventListener("click", ()=>appendTagToInput("IAM"));
 el("tagEC2")?.addEventListener("click", ()=>appendTagToInput("EC2"));
+el("tagST")?.addEventListener("click", ()=>appendTagToInput("ST"));
 el("tagNW")?.addEventListener("click", ()=>appendTagToInput("NW"));
 el("tagDB")?.addEventListener("click", ()=>appendTagToInput("DB"));
 el("tagAI")?.addEventListener("click", ()=>appendTagToInput("AI"));
