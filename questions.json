@@ -4650,7 +4650,7 @@
     "answer": [
       "D"
     ],
-    "explanation": "エンタープライズサポートプランはビジネスクリティカルなシステムのダウンの問い合わせについて、 ー5分以内に応答を受け取れます。\nA. デベロッパーサポートプランは最短12時問以内の応答です。\nB. ビジネスサポートプランは最短1時間以内の応答です。\nC. エンタープライズOn_Rampサポートプランは最短3。分以内の応答です。",
+    "explanation": "エンタープライズサポートプランはビジネスクリティカルなシステムのダウンの問い合わせについて、 15分以内に応答を受け取れます。\nA. デベロッパーサポートプランは最短12時問以内の応答です。\nB. ビジネスサポートプランは最短1時間以内の応答です。\nC. エンタープライズOn-Rampサポートプランは最短30分以内の応答です。",
     "required": 1,
     "multi": false
   },
@@ -4800,7 +4800,7 @@
     "answer": [
       "D"
     ],
-    "explanation": "A. AWS Launch Wizardはエンタープライズアプリケーションの構築ウィザ-ドです。数クリックでベストプラクティスに基づいたCー0udFormati0nスタックが作成されます。\nB. AWSプロフェッシヨナルサービスは専門家チームによるサポートを受けられます。\nC. AWS Managed Services は AWS の運用をAWS に任せられます。",
+    "explanation": "A. AWS Launch Wizardはエンタープライズアプリケーションの構築ウィザ-ドです。数クリックでベストプラクティスに基づいたCloudFormationスタックが作成されます。\nB. AWSプロフェッシヨナルサービスは専門家チームによるサポートを受けられます。\nC. AWS Managed Services は AWS の運用をAWSに任せられます。",
     "required": 1,
     "multi": false
   },
@@ -4830,7 +4830,7 @@
     "answer": [
       "B"
     ],
-    "explanation": "A. AWS Launch Wizardはエンタープライズアプリケーションの構築ウィザードです。\nC. APN (AWS Partner Network) はパートナー企業の総称です。プロジエクトサポートを依頼することもできますが、支払いはAPN からの請求です。\nD. AWS re-Postはユーザー同士の質問と回答ができる公式コミユ二ティです。",
+    "explanation": "A. AWS Launch Wizardはエンタープライズアプリケーションの構築ウィザードです。\nC. APN (AWS Partner Network) はパートナー企業の総称です。プロジエクトサポートを依頼することもできますが、支払いはAPN からの請求です。\nD. AWS re:Postはユーザー同士の質問と回答ができる公式コミユ二ティです。",
     "required": 1,
     "multi": false
   },
@@ -4860,7 +4860,7 @@
     "answer": [
       "B"
     ],
-    "explanation": "A. Organizationsは複数アカウントを組織としてまとめて管理できます。\nC. AWS ActivateはAWSクレジットや特定リ ソースでスタートアップ企業をサポートします。\nD. AWS Launch Wizard はエンタープライズアプリケーションの構築ウィザードです。",
+    "explanation": "A. Organizationsは複数アカウントを組織としてまとめて管理できます。\nC. AWS ActivateはAWSクレジットや特定リソースでスタートアップ企業をサポートします。\nD. AWS Launch Wizard はエンタープライズアプリケーションの構築ウィザードです。",
     "required": 1,
     "multi": false
   },
